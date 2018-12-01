@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sensetime.iva.ipet.mapper.ProjectMapper">
+  <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.Project">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="serial" jdbcType="VARCHAR" property="serial" />
+    <result column="from_old_project" jdbcType="BIT" property="fromOldProject" />
+    <result column="old_project_serial" jdbcType="VARCHAR" property="oldProjectSerial" />
+    <result column="crm_no" jdbcType="VARCHAR" property="crmNo" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="amount" jdbcType="VARCHAR" property="amount" />
+    <result column="sale_manager" jdbcType="VARCHAR" property="saleManager" />
+    <result column="solution_manager" jdbcType="VARCHAR" property="solutionManager" />
+    <result column="pre_sale" jdbcType="VARCHAR" property="preSale" />
+    <result column="first_party" jdbcType="VARCHAR" property="firstParty" />
+    <result column="partners" jdbcType="VARCHAR" property="partners" />
+    <result column="friends" jdbcType="VARCHAR" property="friends" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="doc_file_id" jdbcType="INTEGER" property="docFileId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="background" jdbcType="VARCHAR" property="background" />
+    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
+    <result column="last_status" jdbcType="VARCHAR" property="lastStatus" />
+    <collection property="projectStages" ofType="com.sensetime.iva.ipet.entity.ProjectStage">
+      <id column="sid" property="id" jdbcType="INTEGER" />
+      <result column="step" property="step" jdbcType="INTEGER" />
+      <result column="project_id" property="projectId" jdbcType="INTEGER" />
+      <result column="target" property="target" jdbcType="VARCHAR" />
+      <result column="delivery_date" property="deliveryDate" jdbcType="VARCHAR" />
+      <result column="business_system_id" property="businessSystemId" jdbcType="INTEGER" />
+      <result column="platform_id" property="platformId" jdbcType="INTEGER" />
+      <result column="stage_scale" property="stageScale" jdbcType="VARCHAR" />
+      <result column="expected_scale" property="expectedScale" jdbcType="VARCHAR" />
+      <result column="product_require" property="productRequire" jdbcType="INTEGER" />
+      <result column="customization" property="customization" jdbcType="INTEGER" />
+      <result column="s_create_time" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="s_update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </collection>
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `project`
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="com.sensetime.iva.ipet.entity.Project" useGeneratedKeys="true" >
+    insert into `project` (name, serial, from_old_project, 
+      old_project_serial, crm_no, type, 
+      level, amount, sale_manager, 
+      solution_manager, pre_sale, first_party, 
+      partners, friends, status, 
+      create_time, doc_file_id, update_time, 
+      create_user_id, background,
+      attachment, last_status)
+    values (#{name,jdbcType=VARCHAR}, #{serial,jdbcType=VARCHAR}, #{fromOldProject,jdbcType=BIT}, 
+      #{oldProjectSerial,jdbcType=VARCHAR}, #{crmNo,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{level,jdbcType=INTEGER}, #{amount,jdbcType=VARCHAR}, #{saleManager,jdbcType=VARCHAR},
+      #{solutionManager,jdbcType=VARCHAR}, #{preSale,jdbcType=VARCHAR}, #{firstParty,jdbcType=VARCHAR}, 
+      #{partners,jdbcType=VARCHAR}, #{friends,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{docFileId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=INTEGER}, #{background,jdbcType=VARCHAR},
+      #{attachment,jdbcType=VARCHAR}, #{lastStatus,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.sensetime.iva.ipet.entity.Project">
+    update `project`
+    set name = #{name,jdbcType=VARCHAR},
+      serial = #{serial,jdbcType=VARCHAR},
+      from_old_project = #{fromOldProject,jdbcType=BIT},
+      old_project_serial = #{oldProjectSerial,jdbcType=VARCHAR},
+      crm_no = #{crmNo,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=VARCHAR},
+      sale_manager = #{saleManager,jdbcType=VARCHAR},
+      solution_manager = #{solutionManager,jdbcType=VARCHAR},
+      pre_sale = #{preSale,jdbcType=VARCHAR},
+      first_party = #{firstParty,jdbcType=VARCHAR},
+      partners = #{partners,jdbcType=VARCHAR},
+      friends = #{friends,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      doc_file_id = #{docFileId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      background = #{background,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      last_status = #{lastStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select a.id, name, serial, from_old_project, old_project_serial, crm_no, type, level,
+    amount, sale_manager, solution_manager, pre_sale, first_party, partners, friends, 
+    status, a.create_time, doc_file_id, a.update_time, create_user_id,
+    background, attachment,b.id as sid,project_id, step, target, delivery_date, business_system_id, platform_id, stage_scale,
+    expected_scale, product_require, customization, project_id,last_status,
+    b.create_time as s_create_time, b.update_time as s_update_time
+    from `project` a left join project_stage b on a.id=b.project_id
+    where a.id = #{id,jdbcType=INTEGER} order by b.step
+  </select>
+  
+  <update id="changeProjectStatus">
+      UPDATE
+        project
+        SET
+        status=#{status}
+        WHERE
+        id = #{id}
+  </update>
+  <resultMap id="ListResultMap" type="com.sensetime.iva.ipet.vo.form.ProjectForm">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="serial" jdbcType="VARCHAR" property="serial" />
+    <result column="from_old_project" jdbcType="BIT" property="fromOldProject" />
+    <result column="old_project_serial" jdbcType="VARCHAR" property="oldProjectSerial" />
+    <result column="crm_no" jdbcType="VARCHAR" property="crmNo" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="amount" jdbcType="VARCHAR" property="amount" />
+    <result column="sale_manager" jdbcType="VARCHAR" property="saleManager" />
+    <result column="solution_manager" jdbcType="VARCHAR" property="solutionManager" />
+    <result column="pre_sale" jdbcType="VARCHAR" property="preSale" />
+    <result column="first_party" jdbcType="VARCHAR" property="firstParty" />
+    <result column="partners" jdbcType="VARCHAR" property="partners" />
+    <result column="friends" jdbcType="VARCHAR" property="friends" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="doc_file_id" jdbcType="INTEGER" property="docFileId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="background" jdbcType="VARCHAR" property="background" />
+    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
+    <result column="last_status" jdbcType="VARCHAR" property="lastStatus" />
+    <result column="completion_rate" jdbcType="VARCHAR" property="completionRate" />
+  </resultMap>
+  <!--我的查询列表-->
+  <select id="selectAll" resultMap="ListResultMap">
+    SELECT
+    <include refid="project_column"/>
+    FROM
+    `project` a
+    LEFT JOIN (SELECT
+    round(sum( IFNULL( completion_rate, 0 ) ) / COUNT( id ),2) as completion_rate,
+    project_id
+    FROM
+    weekly_board d
+    GROUP BY
+    project_id) b ON b.project_id = a.id
+    LEFT  JOIN account t on a.create_user_id=t.id
+    LEFT  JOIN area r on r.id=t.area_id
+    <include refid="project_where_query"/>
+    <if test="projectFilterForm.createTime==0 and projectFilterForm.completionRate ==0">
+      ORDER BY a.create_time DESC , b.completion_rate DESC
+    </if>
+    <if test="projectFilterForm.createTime==1 and projectFilterForm.completionRate ==0">
+      ORDER BY b.completion_rate DESC
+    </if>
+    <if test="projectFilterForm.createTime==0 and projectFilterForm.completionRate ==1">
+      ORDER BY a.create_time DESC
+    </if>
+  </select>
+
+  <sql id="project_column">
+    a.id, a.name, a.serial, a.from_old_project,a.old_project_serial, a.crm_no, a.type, a.level,
+    a.amount, a.sale_manager, a.solution_manager, a.pre_sale, a.first_party, a.partners, a.friends,
+    a.status, a.create_time, a.doc_file_id, a.update_time, a.create_user_id,
+    a.background, a.attachment, a.last_status, IFNULL(b.completion_rate,0) as completion_rate, r.name areaName
+  </sql>
+
+  <sql id="project_where_query">
+    <trim prefix="WHERE" prefixOverrides="AND |OR">
+      <if test="projectFilterForm != null">
+      <if test="projectFilterForm.name != null and projectFilterForm.name != ''">
+         AND a.name LIKE CONCAT('%',#{projectFilterForm.name},'%')
+      </if>
+        <if test="projectFilterForm.type != null">
+          AND a.type = #{projectFilterForm.type}
+        </if>
+        <if test="projectFilterForm.level != null">
+          AND a.level = #{projectFilterForm.level}
+        </if>
+        <if test="projectFilterForm.statusList != null">
+          AND a.status in
+          <foreach item="status" index="index" collection="projectFilterForm.statusList" open="(" separator="," close=")">
+            #{status}
+          </foreach>
+        </if>
+        <if test="projectFilterForm.saleManager != null and projectFilterForm.saleManager != ''">
+          AND a.sale_manager LIKE CONCAT('%',#{projectFilterForm.saleManager},'%')
+        </if>
+        <if test="projectFilterForm.solutionManager != null and projectFilterForm.solutionManager != ''">
+          AND a.solution_manager LIKE CONCAT('%',#{projectFilterForm.solutionManager},'%')
+        </if>
+        <if test="projectFilterForm.createUserIds != null">
+          AND a.create_user_id in
+          <foreach item="create_user_id" index="index" collection="projectFilterForm.createUserIds" open="(" separator="," close=")">
+            #{create_user_id}
+          </foreach>
+        </if>
+        <if test="projectFilterForm.areaIds != null">
+          AND t.area_id in
+          <foreach item="area_id" index="index" collection="projectFilterForm.areaIds" open="(" separator="," close=")">
+            #{area_id}
+          </foreach>
+        </if>
+    </if>
+    </trim>
+  </sql>
+
+  <select id="getDistinctSaleManager" resultType="String" resultMap="ListSaleManagerMap">
+    SELECT DISTINCT sale_manager
+    FROM
+    `project`
+    WHERE sale_manager is not null
+    <if test="createUserId != null">
+      and create_user_id = #{createUserId}
+    </if>
+  </select>
+
+  <resultMap id="ListSaleManagerMap" type="String">
+    <result column="sale_manager" jdbcType="VARCHAR" property="saleManager" />
+  </resultMap>
+
+  <select id="getDistinctSolutionManager" resultType="String" resultMap="ListSolutionManagerMap">
+    SELECT DISTINCT solution_manager
+    FROM
+    `project`
+    WHERE solution_manager is not null
+    <if test="createUserId != null">
+      and create_user_id = #{createUserId}
+    </if>
+  </select>
+
+  <resultMap id="ListSolutionManagerMap" type="String">
+    <result column="solution_manager" jdbcType="VARCHAR" property="solutionManager" />
+  </resultMap>
+</mapper>

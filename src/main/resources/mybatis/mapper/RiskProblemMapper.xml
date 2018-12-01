@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.RiskProblemMapper" >
+    <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.RiskProblemEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="project_id" property="projectId" jdbcType="INTEGER" />
+        <result column="risk" property="risk" jdbcType="VARCHAR" />
+        <result column="level" property="level" jdbcType="VARCHAR" />
+        <result column="measure" property="measure" jdbcType="VARCHAR" />
+        <result column="occur_date" property="occurDate" jdbcType="VARCHAR" />
+        <result column="planed_solve_date" property="planedSolveDate" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="person_liable" property="personLiable" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="addRiskProblem" parameterType="com.sensetime.iva.ipet.entity.RiskProblemEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into risk_problem set project_id=#{projectId},risk=#{risk},
+        level=#{level},measure=#{measure},
+        occur_date=#{occurDate},planed_solve_date=#{planedSolveDate},
+        status=#{status},person_liable=#{personLiable},remark=#{remark},
+        create_time=#{createTime}
+    </insert>
+
+    <update id="updateRiskProblem" parameterType="com.sensetime.iva.ipet.entity.RiskProblemEntity">
+        UPDATE
+        risk_problem
+        SET
+        risk=#{risk},
+        level=#{level},measure=#{measure},
+        occur_date=#{occurDate},planed_solve_date=#{planedSolveDate},
+        status=#{status},person_liable=#{personLiable},remark=#{remark},
+        update_time=#{updateTime}
+        WHERE
+        id = #{id}
+    </update>
+
+    <select id="queryByProject" resultMap="BaseResultMap">
+        select * from risk_problem where project_id = #{id} order by id
+    </select>
+
+    <delete id="deleteById">
+        delete from risk_problem where id=#{id}
+    </delete>
+
+    <select id="queryById" resultMap="BaseResultMap">
+        select *
+        from risk_problem
+        where id=#{id}
+    </select>
+
+</mapper>

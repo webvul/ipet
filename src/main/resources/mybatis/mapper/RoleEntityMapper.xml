@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.RoleMapper" >
+    <resultMap id="RoleResultMap" type="com.sensetime.iva.ipet.entity.RoleEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getAll" resultMap="RoleResultMap"  >
+       SELECT
+          id, name, role_name
+	   FROM role
+    </select>
+
+    <select id="queryById" parameterType="java.lang.Integer" resultMap="RoleResultMap"  >
+       SELECT
+          id, name, role_name
+	   FROM role
+	   where id=#{id}
+    </select>
+
+    <insert id="addRole" parameterType="com.sensetime.iva.ipet.entity.RoleEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        role set name=#{name}, role_name=#{roleName},
+          create_time=#{createTime}
+    </insert>
+
+    <delete id="deleteRole" parameterType="java.lang.Integer">
+        delete from role where id=#{id}
+    </delete>
+
+    <update id="updateRole" parameterType="com.sensetime.iva.ipet.entity.RoleEntity">
+        update  role set name=#{name},role_name=#{roleName},update_time=#{updateTime}
+        where id=#{id}
+    </update>
+
+    <insert id="addRolesForAccount">
+        INSERT INTO account_role(account_id,role_id) VALUES
+        <foreach collection="roles" separator="," item="rid">
+            (#{accountId,jdbcType=INTEGER},#{rid.id,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <select id="queryRoleByAccountId" resultMap="RoleResultMap" >
+        SELECT
+          r.id, r.name, r.role_name
+	    FROM role r left join account_role ar on ar.account_id=#{accountId}
+	    where r.id = ar.role_id
+    </select>
+
+    <delete id="deleteAccountRoleByAccId">
+        delete from account_role
+        where account_id=#{id}
+    </delete>
+
+    <select id="queryRoleByNameOrRoleName" resultMap="RoleResultMap" >
+        SELECT
+          r.id, r.name, r.role_name
+	    FROM role r
+	    where r.name = #{name} or r.role_name = #{roleName}
+    </select>
+
+    <select id="queryRoleByRoleName" resultMap="RoleResultMap">
+        select
+           r.id, r.name, r.role_name
+        from role r
+        where r.role_name=#{roleName}
+    </select>
+
+</mapper>

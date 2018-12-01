@@ -1,0 +1,21 @@
+database-host: 172.20.3.131
+database-port: 3306
+database-schema: ipet_test
+database-username: root
+database-password: admin@123
+ldap.domain: "@domain.sensetime.com"
+
+#上传项目文件的路径及下载的地址和端口
+LoadFileConfig:
+ projectLocation: /home/sensetime/ipet/test/load/project/
+ projectPlanLocation: /home/sensetime/ipet/test/load/projectPlan/
+ topologicalGraphLocation:  /home/sensetime/ipet/test/load/topologicalGraph/
+ physicalMapLocation: /home/sensetime/ipet/test/load/physicalMap/
+ downloadIp: 172.20.3.131
+ downloadPort: 8088
+#web访问和服务器地址映射关系
+web-to-disk: /home/sensetime/ipet/test/
+#redis 测试ip
+redis-host: 172.20.3.131
+#server port
+server-port: 8088

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.SurveyListMapper" >
+  <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.SurveyList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="no" property="no" jdbcType="VARCHAR" />
+    <result column="constablewick" property="constablewick" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="glare" property="glare" jdbcType="VARCHAR" />
+    <result column="backlight" property="backlight" jdbcType="VARCHAR" />
+    <result column="weaklight" property="weaklight" jdbcType="VARCHAR" />
+    <result column="passing_rate" property="passingRate" jdbcType="VARCHAR" />
+    <result column="positive_rate" property="positiveRate" jdbcType="VARCHAR" />
+    <result column="poe" property="poe" jdbcType="VARCHAR" />
+    <result column="dc" property="dc" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="REAL" />
+    <result column="latitude" property="latitude" jdbcType="REAL" />
+    <result column="direction_angle" property="directionAngle" jdbcType="REAL" />
+    <result column="focal_length" property="focalLength" jdbcType="REAL" />
+    <result column="view_distance" property="viewDistance" jdbcType="REAL" />
+    <result column="view_width" property="viewWidth" jdbcType="REAL" />
+    <result column="height" property="height" jdbcType="REAL" />
+    <result column="width_height" property="widthHeight" jdbcType="REAL" />
+    <result column="screen" property="screen" jdbcType="BIT" />
+    <result column="anti_collision" property="antiCollision" jdbcType="BIT" />
+    <result column="point_check" property="pointCheck" jdbcType="VARCHAR" />
+    <result column="eye_distance" property="eyeDistance" jdbcType="INTEGER" />
+    <result column="focal_graph" property="focalGraph" jdbcType="VARCHAR" />
+    <result column="reexamination" property="reexamination" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from `survey_list`
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sensetime.iva.ipet.entity.SurveyList" useGeneratedKeys="true" keyProperty="id" >
+    insert into `survey_list` (project_id, no, constablewick, 
+      location, amount, glare, 
+      backlight, weaklight, passing_rate, 
+      positive_rate, poe, dc, 
+      longitude, latitude, direction_angle, 
+      focal_length, view_distance, view_width, 
+      height, width_height, screen, 
+      anti_collision, point_check, eye_distance, 
+      focal_graph, reexamination, create_time, 
+      update_time)
+    values (#{projectId,jdbcType=INTEGER}, #{no,jdbcType=VARCHAR}, #{constablewick,jdbcType=VARCHAR}, 
+      #{location,jdbcType=VARCHAR}, #{amount,jdbcType=INTEGER}, #{glare,jdbcType=VARCHAR}, 
+      #{backlight,jdbcType=VARCHAR}, #{weaklight,jdbcType=VARCHAR}, #{passingRate,jdbcType=VARCHAR}, 
+      #{positiveRate,jdbcType=VARCHAR}, #{poe,jdbcType=VARCHAR}, #{dc,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, #{directionAngle,jdbcType=REAL}, 
+      #{focalLength,jdbcType=REAL}, #{viewDistance,jdbcType=REAL}, #{viewWidth,jdbcType=REAL}, 
+      #{height,jdbcType=REAL}, #{widthHeight,jdbcType=REAL}, #{screen,jdbcType=BIT}, 
+      #{antiCollision,jdbcType=BIT}, #{pointCheck,jdbcType=VARCHAR}, #{eyeDistance,jdbcType=INTEGER}, 
+      #{focalGraph,jdbcType=VARCHAR}, #{reexamination,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.sensetime.iva.ipet.entity.SurveyList" >
+    update `survey_list`
+    set project_id = #{projectId,jdbcType=INTEGER},
+      no = #{no,jdbcType=VARCHAR},
+      constablewick = #{constablewick,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=INTEGER},
+      glare = #{glare,jdbcType=VARCHAR},
+      backlight = #{backlight,jdbcType=VARCHAR},
+      weaklight = #{weaklight,jdbcType=VARCHAR},
+      passing_rate = #{passingRate,jdbcType=VARCHAR},
+      positive_rate = #{positiveRate,jdbcType=VARCHAR},
+      poe = #{poe,jdbcType=VARCHAR},
+      dc = #{dc,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=REAL},
+      latitude = #{latitude,jdbcType=REAL},
+      direction_angle = #{directionAngle,jdbcType=REAL},
+      focal_length = #{focalLength,jdbcType=REAL},
+      view_distance = #{viewDistance,jdbcType=REAL},
+      view_width = #{viewWidth,jdbcType=REAL},
+      height = #{height,jdbcType=REAL},
+      width_height = #{widthHeight,jdbcType=REAL},
+      screen = #{screen,jdbcType=BIT},
+      anti_collision = #{antiCollision,jdbcType=BIT},
+      point_check = #{pointCheck,jdbcType=VARCHAR},
+      eye_distance = #{eyeDistance,jdbcType=INTEGER},
+      focal_graph = #{focalGraph,jdbcType=VARCHAR},
+      reexamination = #{reexamination,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, project_id, no, constablewick, location, amount, glare, backlight, weaklight, 
+    passing_rate, positive_rate, poe, dc, longitude, latitude, direction_angle, focal_length, 
+    view_distance, view_width, height, width_height, screen, anti_collision, point_check, 
+    eye_distance, focal_graph, reexamination, create_time, update_time
+    from `survey_list`
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, project_id, no, constablewick, location, amount, glare, backlight, weaklight, 
+    passing_rate, positive_rate, poe, dc, longitude, latitude, direction_angle, focal_length, 
+    view_distance, view_width, height, width_height, screen, anti_collision, point_check, 
+    eye_distance, focal_graph, reexamination, create_time, update_time
+    from `survey_list`
+  </select>
+</mapper>

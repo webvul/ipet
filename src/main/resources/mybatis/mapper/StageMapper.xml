@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.StageMapper" >
+    <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.StageEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="project_id" property="projectId" jdbcType="INTEGER" />
+        <result column="start_date" property="startDate" jdbcType="DATE" />
+        <result column="end_date" property="endDate" jdbcType="DATE" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <collection property="workTimeEntities" ofType="com.sensetime.iva.ipet.entity.WorkTimeEntity">
+            <id column="wid" property="id"/>
+            <result column="name" property="name"/>
+            <result column="work_desc" property="workDesc"/>
+            <result column="work_hour1" property="workHour1"/>
+            <result column="work_hour2" property="workHour2"/>
+            <result column="work_hour3" property="workHour3"/>
+            <result column="work_hour4" property="workHour4"/>
+            <result column="work_hour5" property="workHour5"/>
+            <result column="work_hour6" property="workHour6"/>
+            <result column="work_hour7" property="workHour7"/>
+            <result column="week_total_time" property="weekTotalHour"/>
+            <result column="total" property="total"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="HaveStageResultMap" type="com.sensetime.iva.ipet.entity.StageEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="project_id" property="projectId" jdbcType="INTEGER" />
+        <result column="start_date" property="startDate" jdbcType="DATE" />
+        <result column="end_date" property="endDate" jdbcType="DATE" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+    </resultMap>
+
+    <insert id="addStage" parameterType="com.sensetime.iva.ipet.entity.StageEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into stage set project_id=#{projectId},
+        start_date=#{startDate},end_date=#{endDate},type=#{type}
+    </insert>
+
+    <update id="updateStage" parameterType="com.sensetime.iva.ipet.entity.StageEntity">
+        UPDATE
+        stage
+        SET
+        end_date=#{endDate}
+        WHERE
+        id = #{id}
+    </update>
+
+    <select id="queryStagesByProjectIdAndType" resultMap="BaseResultMap">
+        select s.*,w.id as wid, w.name, w.work_desc, w.work_hour1,
+        w.work_hour2, w.work_hour3,w.work_hour4,w.work_hour5,w.work_hour6,
+        w.work_hour7,w.week_total_time,
+            (select SUM(t.week_total_time) from work_time t
+              where t.`name`=w.name and t.stage_id <![CDATA[ <= ]]> s.id and s.id in
+            (select e.id from stage e where e.project_id=#{id} and e.type=2)
+            ) as total
+        from stage s left join work_time w on s.id = w.stage_id
+        where s.project_id=#{id} and s.type=#{type}
+        order by s.start_date desc,w.create_time
+    </select>
+
+    <select id="queryProjectStageByProIdAndType" resultMap="HaveStageResultMap">
+        select s.*
+        from stage s
+        where s.project_id=#{id} and s.type=#{type}
+        order by s.start_date desc
+    </select>
+
+    <delete id="deleteById">
+        delete from stage where id=#{id}
+    </delete>
+
+    <select id="queryById" resultMap="BaseResultMap">
+        select s.*,w.id as wid, w.name, w.work_desc, w.work_hour1,
+        w.work_hour2, w.work_hour3,w.work_hour4,w.work_hour5,w.work_hour6,
+        w.work_hour7,w.week_total_time
+        from stage s left join work_time w on s.id = w.stage_id
+        where s.id=#{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.AccountMapper" >
+    <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.AccountEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <result column="area_id" property="areaId" jdbcType="INTEGER" />
+        <result column="enabled" property="enabled" jdbcType="BIT" />
+        <collection property="area" ofType="com.sensetime.iva.ipet.entity.AreaEntity">
+            <id column="aid" property="id"/>
+            <result column="areaName" property="name"/>
+            <result column="areaNote" property="note"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="FormResultMap" type="com.sensetime.iva.ipet.vo.form.AccountForm" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <collection property="area" ofType="com.sensetime.iva.ipet.entity.AreaEntity">
+            <id column="aid" property="id"/>
+            <result column="areaName" property="name"/>
+            <result column="areaNote" property="note"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="RoleResultMap" type="com.sensetime.iva.ipet.entity.RoleEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="lazyLoadRoles" type="com.sensetime.iva.ipet.entity.AccountEntity" extends="BaseResultMap">
+        <collection property="roles" ofType="com.sensetime.iva.ipet.entity.RoleEntity" select="com.sensetime.iva.ipet.mapper.AccountMapper.getRolesByAccountId"
+                    column="id"></collection>
+    </resultMap>
+
+    <select id="queryAccountsByRoleId" resultMap="BaseResultMap" >
+        SELECT
+          a.id as id, username, a.name as name, email, type
+	    FROM account a left join account_role ar on ar.account_id=a.id
+	    where ar.role_id=#{id}
+    </select>
+
+    <select id="getRolesByAccountId" resultMap="RoleResultMap">
+        SELECT r.id,r.name,r.role_name FROM account_role ar,role r where ar.role_id=r.id AND ar.account_id=#{id}
+    </select>
+
+    <select id="getAll" resultMap="FormResultMap" >
+        SELECT
+          account.id as id, username, account.name as name, email, type,
+          area.id as aid,area.name as areaName,area.note as areaNote
+	   FROM account left  join  area on account.area_id = area.id
+        <if test="_parameter != null and _parameter!=''">
+            where username like '%${_parameter}%'
+        </if>
+        order by account.create_time desc
+    </select>
+
+    <select id="getAllPM" resultMap="FormResultMap"   >
+        SELECT
+        account.id as id, username, account.name as name, email, type,
+        area.id as aid,area.name as areaName,area.note as areaNote
+        FROM account left  join  area on account.area_id = area.id
+        left join account_role ar on ar.account_id = account.id
+        left join role r on r.id = ar.role_id
+        where
+        <if test="_parameter != null and _parameter!=''">
+             username like '%${_parameter}%' and
+        </if>
+        r.role_name = 'ROLE_pm'
+        order by account.create_time desc
+    </select>
+
+    <select id="loadUserByUsername" resultMap="lazyLoadRoles">
+        select a.*,e.id as aid,e.name as areaName,e.note as areaNote from account a
+        left join area e on a.area_id = e.id
+        WHERE a.username=#{username}
+    </select>
+
+    <select id="queryById" resultMap="BaseResultMap">
+        SELECT
+          account.id as id, username, account.name as name, email, type,
+          area.id as aid,area.name as areaName,area.note as areaNote
+	   FROM account left  join  area on account.area_id = area.id
+	   where account.id=#{id}
+    </select>
+
+    <insert id="addAccount" parameterType="com.sensetime.iva.ipet.entity.AccountEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into account set username=#{username},
+        <if test="password != null">password = #{password},</if>
+        type=#{type},
+        name=#{name},
+        <if test="email != null">email = #{email},</if>
+        <if test="areaId != 0">area_id = #{areaId},</if>
+        create_user_id=#{createUserId},
+        enabled = #{enabled},
+          create_time=#{createTime}
+    </insert>
+
+    <update id="updateAccount" parameterType="com.sensetime.iva.ipet.entity.AccountEntity">
+        update account set username=#{username},
+        <if test="password != null">password = #{password},</if>
+        <if test="type != 0">type = #{type},</if>
+        name=#{name},
+        <if test="email != null">email = #{email},</if>
+        <if test="areaId != 0">area_id = #{areaId},</if>
+        enabled = #{enabled},update_time=#{updateTime}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteAccount">
+        delete from account where account.id=#{id}
+    </delete>
+
+    <select id="queryAccountByResourceCode" parameterType="String" resultMap="BaseResultMap">
+        select a.*
+        from account a
+        left join account_role ar on ar.account_id = a.id
+        LEFT JOIN resource_role rr on rr.role_id = ar.role_id
+        LEFT JOIN resource r ON r.id= rr.resource_id
+        where r.`code`=#{code}
+    </select>
+
+
+</mapper>

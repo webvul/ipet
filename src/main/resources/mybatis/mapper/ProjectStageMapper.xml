@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.ProjectStageMapper" >
+  <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.ProjectStage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="step" property="step" jdbcType="INTEGER" />
+    <result column="target" property="target" jdbcType="VARCHAR" />
+    <result column="delivery_date" property="deliveryDate" jdbcType="VARCHAR" />
+    <result column="business_system_id" property="businessSystemId" jdbcType="INTEGER" />
+    <result column="platform_id" property="platformId" jdbcType="INTEGER" />
+    <result column="stage_scale" property="stageScale" jdbcType="VARCHAR" />
+    <result column="expected_scale" property="expectedScale" jdbcType="VARCHAR" />
+    <result column="product_require" property="productRequire" jdbcType="INTEGER" />
+    <result column="customization" property="customization" jdbcType="INTEGER" />
+    <result column="
+create_time" property="
+createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+    <collection property="project" ofType="com.sensetime.iva.ipet.entity.Project">
+      <id column="project_id" jdbcType="INTEGER" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="serial" jdbcType="VARCHAR" property="serial" />
+      <result column="from_old_project" jdbcType="BIT" property="fromOldProject" />
+      <result column="old_project_serial" jdbcType="VARCHAR" property="oldProjectSerial" />
+      <result column="crm_no" jdbcType="VARCHAR" property="crmNo" />
+      <result column="type" jdbcType="INTEGER" property="type" />
+      <result column="level" jdbcType="INTEGER" property="level" />
+      <result column="amount" jdbcType="REAL" property="amount" />
+      <result column="sale_manager" jdbcType="VARCHAR" property="saleManager" />
+      <result column="solution_manager" jdbcType="VARCHAR" property="solutionManager" />
+      <result column="pre_sale" jdbcType="VARCHAR" property="preSale" />
+      <result column="first_party" jdbcType="VARCHAR" property="firstParty" />
+      <result column="partners" jdbcType="VARCHAR" property="partners" />
+      <result column="friends" jdbcType="VARCHAR" property="friends" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="doc_file_id" jdbcType="INTEGER" property="docFileId" />
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+      <result column="background" jdbcType="VARCHAR" property="background" />
+      <result column="attachment" jdbcType="VARCHAR" property="attachment" />
+    </collection>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from `project_stage`
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sensetime.iva.ipet.entity.ProjectStage" useGeneratedKeys="true" keyProperty="id" >
+    insert into `project_stage` (step, target, delivery_date, 
+      business_system_id, platform_id, stage_scale,
+      expected_scale, product_require, customization,
+
+create_time, update_time, project_id
+      )
+    values (#{step,jdbcType=INTEGER}, #{target,jdbcType=VARCHAR}, #{deliveryDate,jdbcType=VARCHAR}, 
+      #{businessSystemId,jdbcType=INTEGER}, #{platformId,jdbcType=INTEGER}, #{stageScale,jdbcType=VARCHAR},
+      #{expectedScale,jdbcType=VARCHAR}, #{productRequire,jdbcType=INTEGER}, #{customization,jdbcType=INTEGER}, 
+      #{
+createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{projectId,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.sensetime.iva.ipet.entity.ProjectStage" >
+    update `project_stage`
+    set step = #{step,jdbcType=INTEGER},
+      target = #{target,jdbcType=VARCHAR},
+      delivery_date = #{deliveryDate,jdbcType=VARCHAR},
+      business_system_id = #{businessSystemId,jdbcType=INTEGER},
+      platform_id = #{platformId,jdbcType=INTEGER},
+      stage_scale = #{stageScale,jdbcType=VARCHAR},
+      expected_scale = #{expectedScale,jdbcType=VARCHAR},
+      product_require = #{productRequire,jdbcType=INTEGER},
+      customization = #{customization,jdbcType=INTEGER},
+      
+create_time = #{
+createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      project_id = #{projectId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, step, target, delivery_date, business_system_id, platform_id, stage_scale,
+    expected_scale, product_require, customization, 
+create_time, update_time, project_id
+    from `project_stage`
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, step, target, delivery_date, business_system_id, platform_id, stage_scale,
+    expected_scale, product_require, customization, 
+create_time, update_time, project_id
+    from `project_stage`
+  </select>
+</mapper>

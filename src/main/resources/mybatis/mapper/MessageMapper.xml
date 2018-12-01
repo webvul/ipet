@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.MessageMapper" >
+    <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.Message" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="event" property="event" jdbcType="INTEGER" />
+        <result column="send" property="send" jdbcType="VARCHAR" />
+        <result column="handle" property="handle" jdbcType="BIT" />
+        <result column="param1" property="param1" jdbcType="INTEGER" />
+        <result column="param2" property="param2" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="addMessage" parameterType="com.sensetime.iva.ipet.entity.Message" useGeneratedKeys="true" keyProperty="id">
+        insert into message set title=#{title}, content=#{content},
+          event=#{event}, send=#{send},receiver_id=#{receiverId},handle=#{handle},
+          param1=#{param1}, param2=#{param2},
+          create_time=#{createTime}
+    </insert>
+
+    <select id="getUnReadByRecId" resultMap="BaseResultMap">
+       SELECT
+          m.*
+	   FROM message m
+	   where m.receiver_id = #{id} and m.handle = 0
+	   order  by create_time desc
+    </select>
+
+    <update id="updateMessageRead" parameterType="com.sensetime.iva.ipet.entity.Message">
+        UPDATE
+        message
+        SET
+        handle = #{handle},
+       update_time=#{updateTime}
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM
+       		 message
+        WHERE
+       		 id =#{id}
+    </delete>
+
+    <select id="queryById" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+        select
+          m.*
+	    FROM message m
+	    where id=#{id}
+    </select>
+
+    <update id="updateUnHandleByEventAndParam1">
+        UPDATE
+        message m
+        SET
+        m.handle = true,
+        m.update_time=#{updateTime}
+        where m.event = #{event} and m.param1 = #{param1}
+        and m.handle = false
+    </update>
+
+
+</mapper>

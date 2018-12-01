@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sensetime.iva.ipet.mapper.WareListMapper">
+  <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.WareList">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="sn_no" jdbcType="VARCHAR" property="snNo" />
+    <result column="node_name" jdbcType="VARCHAR" property="nodeName" />
+    <result column="config_code" jdbcType="VARCHAR" property="configCode" />
+    <result column="size" jdbcType="VARCHAR" property="size" />
+    <result column="hardware_config" jdbcType="VARCHAR" property="hardwareConfig" />
+    <result column="software_module" jdbcType="VARCHAR" property="softwareModule" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="port" jdbcType="VARCHAR" property="port" />
+    <result column="video_private_ip" jdbcType="VARCHAR" property="videoPrivateIp" />
+    <result column="police_ip" jdbcType="VARCHAR" property="policeIp" />
+    <result column="account_password" jdbcType="VARCHAR" property="accountPassword" />
+    <result column="license_expiration" jdbcType="VARCHAR" property="licenseExpiration" />
+    <result column="revised_record" jdbcType="VARCHAR" property="revisedRecord" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `ware_list`
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="com.sensetime.iva.ipet.entity.WareList" useGeneratedKeys="true">
+    insert into `ware_list` (project_id, sn_no, node_name, 
+      config_code, size, hardware_config, 
+      software_module, version, port, 
+      video_private_ip, police_ip, account_password, 
+      license_expiration, revised_record, remark, 
+      create_time, update_time, update_date
+      )
+    values (#{projectId,jdbcType=INTEGER}, #{snNo,jdbcType=VARCHAR}, #{nodeName,jdbcType=VARCHAR}, 
+      #{configCode,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, #{hardwareConfig,jdbcType=VARCHAR}, 
+      #{softwareModule,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{port,jdbcType=VARCHAR}, 
+      #{videoPrivateIp,jdbcType=VARCHAR}, #{policeIp,jdbcType=VARCHAR}, #{accountPassword,jdbcType=VARCHAR}, 
+      #{licenseExpiration,jdbcType=VARCHAR}, #{revisedRecord,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.sensetime.iva.ipet.entity.WareList">
+    update `ware_list`
+    set project_id = #{projectId,jdbcType=INTEGER},
+      sn_no = #{snNo,jdbcType=VARCHAR},
+      node_name = #{nodeName,jdbcType=VARCHAR},
+      config_code = #{configCode,jdbcType=VARCHAR},
+      size = #{size,jdbcType=VARCHAR},
+      hardware_config = #{hardwareConfig,jdbcType=VARCHAR},
+      software_module = #{softwareModule,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      port = #{port,jdbcType=VARCHAR},
+      video_private_ip = #{videoPrivateIp,jdbcType=VARCHAR},
+      police_ip = #{policeIp,jdbcType=VARCHAR},
+      account_password = #{accountPassword,jdbcType=VARCHAR},
+      license_expiration = #{licenseExpiration,jdbcType=VARCHAR},
+      revised_record = #{revisedRecord,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, project_id, sn_no, node_name, config_code, size, hardware_config, software_module, 
+    version, port, video_private_ip, police_ip, account_password, license_expiration, 
+    revised_record, remark, create_time, update_time, update_date
+    from `ware_list`
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, project_id, sn_no, node_name, config_code, size, hardware_config, software_module, 
+    version, port, video_private_ip, police_ip, account_password, license_expiration, 
+    revised_record, remark, create_time, update_time, update_date
+    from `ware_list`
+  </select>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.BusinessTripMapper" >
+    <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.BusinessTripEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="project_id" property="projectId" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="work_desc" property="workDesc" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <result column="destination" property="destination" jdbcType="VARCHAR" />
+        <result column="start_date" property="startDate" jdbcType="VARCHAR" />
+        <result column="end_date" property="endDate" jdbcType="VARCHAR" />
+        <result column="accommodation" property="accommodation" jdbcType="FLOAT" />
+        <result column="traffic" property="traffic" jdbcType="FLOAT" />
+        <result column="other" property="other" jdbcType="FLOAT" />
+        <result column="total" property="total" jdbcType="FLOAT" />
+    </resultMap>
+
+    <insert id="addBusinessTrip" parameterType="com.sensetime.iva.ipet.entity.BusinessTripEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into business_trip set project_id=#{projectId},name=#{name},work_desc=#{workDesc},
+        type=#{type},destination=#{destination},start_date=#{startDate},end_date=#{endDate},
+        accommodation=#{accommodation},traffic=#{traffic},other=#{other},total=#{total},
+        create_time=#{createTime}
+    </insert>
+
+    <update id="updateBusinessTrip" parameterType="com.sensetime.iva.ipet.entity.BusinessTripEntity">
+        UPDATE
+        business_trip
+        SET
+        work_desc=#{workDesc},
+        type=#{type},destination=#{destination},start_date=#{startDate},end_date=#{endDate},
+        accommodation=#{accommodation},traffic=#{traffic},other=#{other},total=#{total},
+        update_time=#{updateTime}
+        WHERE
+        id = #{id}
+    </update>
+
+    <select id="queryByProject" resultMap="BaseResultMap">
+        select * from business_trip where project_id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from business_trip where id=#{id}
+    </delete>
+
+    <select id="queryById" resultMap="BaseResultMap">
+        select *
+        from business_trip
+        where id=#{id}
+    </select>
+
+</mapper>

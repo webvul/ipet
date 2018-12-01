@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.WeeklyBoardMapper" >
+  <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.WeeklyBoard" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="stage" property="stage" jdbcType="INTEGER" />
+    <result column="task" property="task" jdbcType="INTEGER" />
+    <result column="work_desc" property="workDesc" jdbcType="VARCHAR" />
+    <result column="output" property="output" jdbcType="VARCHAR" />
+    <result column="plan_start_date" property="planStartDate" jdbcType="VARCHAR" />
+    <result column="real_start_date" property="realStartDate" jdbcType="VARCHAR" />
+    <result column="plan_finish_date" property="planFinishDate" jdbcType="VARCHAR" />
+    <result column="real_finish_date" property="realFinishDate" jdbcType="VARCHAR" />
+    <result column="completion_rate" property="completionRate" jdbcType="REAL" />
+    <result column="workload" property="workload" jdbcType="VARCHAR" />
+    <result column="person_liable" property="personLiable" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from `weekly_board`
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sensetime.iva.ipet.entity.WeeklyBoard" useGeneratedKeys="true" keyProperty="id" >
+    insert into `weekly_board` (project_id, stage, task,
+      work_desc, output, plan_start_date, 
+      real_start_date, plan_finish_date, real_finish_date, 
+      completion_rate, workload, person_liable, 
+      remark, create_time, update_time
+      )
+    values (#{projectId,jdbcType=INTEGER}, #{stage,jdbcType=INTEGER}, #{task,jdbcType=INTEGER},
+      #{workDesc,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR}, #{planStartDate,jdbcType=VARCHAR}, 
+      #{realStartDate,jdbcType=VARCHAR}, #{planFinishDate,jdbcType=VARCHAR}, #{realFinishDate,jdbcType=VARCHAR}, 
+      #{completionRate,jdbcType=REAL}, #{workload,jdbcType=VARCHAR}, #{personLiable,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.sensetime.iva.ipet.entity.WeeklyBoard" >
+    update `weekly_board`
+    set project_id = #{projectId,jdbcType=INTEGER},
+      stage = #{stage,jdbcType=INTEGER},
+      task = #{task,jdbcType=INTEGER},
+      work_desc = #{workDesc,jdbcType=VARCHAR},
+      output = #{output,jdbcType=VARCHAR},
+      plan_start_date = #{planStartDate,jdbcType=VARCHAR},
+      real_start_date = #{realStartDate,jdbcType=VARCHAR},
+      plan_finish_date = #{planFinishDate,jdbcType=VARCHAR},
+      real_finish_date = #{realFinishDate,jdbcType=VARCHAR},
+      completion_rate = #{completionRate,jdbcType=REAL},
+      workload = #{workload,jdbcType=VARCHAR},
+      person_liable = #{personLiable,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, project_id, stage, task, work_desc, output, plan_start_date, real_start_date,
+    plan_finish_date, real_finish_date, completion_rate, workload, person_liable, remark, 
+    create_time, update_time
+    from `weekly_board`
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, project_id, stage, task, work_desc, output, plan_start_date, real_start_date,
+    plan_finish_date, real_finish_date, completion_rate, workload, person_liable, remark, 
+    create_time, update_time
+    from `weekly_board`
+  </select>
+</mapper>

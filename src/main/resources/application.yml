@@ -1,0 +1,79 @@
+spring:
+  profiles:
+    active: test
+  datasource:
+    # default database config
+    url: jdbc:mysql://${database-host}:${database-port}/${database-schema}?useSSL=false&useUnicode=true&characterEncoding=utf-8
+    username: ${database-username}
+    password: ${database-password}
+    driver-class-name: com.mysql.jdbc.Driver
+  http:
+    encoding:
+      charset: utf-8
+    multipart:
+      #为了友好提示这里设置偏大,还会进行上传大小验证
+      #为防止upload file size 超过max-file-size 导致redirect loop 无法响应，参数值改为 -1
+      max-request-size: -1
+      max-file-size: -1
+      #web访问和服务器地址映射关系
+      location: ${web-to-disk}
+  redis:
+    database: 0
+    host: ${redis-host}
+    port: 6379
+#    password: 12345
+    # 连接超时时间（毫秒）
+    timeout: 0
+    pool:
+      # 连接池最大连接数（使用负值表示没有限制）
+      max-active: 8
+      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+      max-wait: -1
+      # 连接池中的最大空闲连接
+      max-idle: 8
+      # 连接池中的最小空闲连接
+      min-idle: 0
+  ldap:
+      urls: ldap://ad-idc.bj.sensetime.com:389
+      base: ou=people,dc=domain,dc=sensetime,dc=com
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/, classpath:/public/, file:${spring.http.multipart.location}
+
+server:
+  context-path: /ipet/v1
+  tomcat:
+    uri-encoding: UTF-8
+  port: ${server-port}
+  session:
+    cookie:
+      http-only: false
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.sensetime.iva.ipet.entity
+
+logging:
+  level:
+    com:
+      sensetime:
+        iva:
+          ipet:
+            mapper:debug
+
+# 清除ldap检测
+management:
+  health:
+    ldap:
+      enabled: false
+
+
+user:
+ # redis中用户失效时间（失效时间内无任何操作清除用户）,单位：分钟
+ redisTimeout: 30
+  # remember me 过期时间,单位：天
+ rememberMeTimeout: 5
+
+# 权限校验开关
+isOpenSecurity: true
+# 资源动态加载开关
+isOpenScanResource: true

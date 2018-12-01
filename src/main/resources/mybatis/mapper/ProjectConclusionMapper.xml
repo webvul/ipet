@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.ProjectConclusionMapper" >
+    <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.ProjectConclusionEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="project_id" property="projectId" jdbcType="INTEGER" />
+        <result column="target" property="target" jdbcType="VARCHAR" />
+        <result column="cycle" property="cycle" jdbcType="VARCHAR" />
+        <result column="identity" property="identity" jdbcType="INTEGER" />
+        <result column="plan" property="plan" jdbcType="VARCHAR" />
+        <result column="phase_conclusion" property="phaseConclusion" jdbcType="VARCHAR" />
+        <result column="plan_design_cycle" property="planDesignCycle" jdbcType="INTEGER" />
+        <result column="plan_design_describe" property="planDesignDescribe" jdbcType="VARCHAR" />
+        <result column="customization_development_cycle" property="customizationDevelopmentCycle" jdbcType="INTEGER" />
+        <result column="customization_development_describe" property="customizationDevelopmentDescribe" jdbcType="VARCHAR" />
+        <result column="pre_deliver_cycle" property="preDeliverCycle" jdbcType="INTEGER" />
+        <result column="pre_deliver_describe" property="preDeliverDescribe" jdbcType="VARCHAR" />
+        <result column="deliver_cycle" property="deliverCycle" jdbcType="INTEGER" />
+        <result column="deliver_describe" property="deliverDescribe" jdbcType="VARCHAR" />
+        <result column="maintenance_cycle" property="maintenanceCycle" jdbcType="INTEGER" />
+        <result column="maintenance_describe" property="maintenanceDescribe" jdbcType="VARCHAR" />
+        <result column="acceptance_cycle" property="acceptanceCycle" jdbcType="INTEGER" />
+        <result column="acceptance_describe" property="acceptanceDescribe" jdbcType="VARCHAR" />
+        <result column="after_sale_cycle" property="afterSaleCycle" jdbcType="INTEGER" />
+        <result column="after_sale_describe" property="afterSaleDescribe" jdbcType="VARCHAR" />
+        <result column="fault_num" property="faultNum" jdbcType="INTEGER" />
+        <result column="fault_num_describe" property="faultNumDescribe" jdbcType="VARCHAR" />
+        <result column="implement_num" property="implementNum" jdbcType="INTEGER" />
+        <result column="implement_describe" property="implementDescribe" jdbcType="VARCHAR" />
+        <result column="total" property="total" jdbcType="INTEGER" />
+        <result column="total_describe" property="totalDescribe" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="action_event" property="actionEvent" jdbcType="VARCHAR" />
+        <result column="our_strengths_weaknesses" property="ourStrengthsWeaknesses" jdbcType="VARCHAR" />
+        <result column="friends_strengths_weaknesses" property="friendsStrengthsWeaknesses" jdbcType="VARCHAR" />
+        <result column="legacy" property="legacy" jdbcType="VARCHAR" />
+        <result column="experience_summary" property="experienceSummary" jdbcType="VARCHAR" />
+        <result column="improvement" property="improvement" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="addProjectConclusion" parameterType="com.sensetime.iva.ipet.entity.ProjectConclusionEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into project_conclusion set project_id=#{projectId},target=#{target},
+        cycle=#{cycle},identity=#{identity},
+        plan=#{plan},phase_conclusion=#{phaseConclusion},
+        plan_design_cycle=#{planDesignCycle},plan_design_describe=#{planDesignDescribe},
+        customization_development_cycle=#{customizationDevelopmentCycle},
+        customization_development_describe=#{customizationDevelopmentDescribe},
+        pre_deliver_cycle=#{preDeliverCycle},pre_deliver_describe=#{preDeliverDescribe},
+        deliver_cycle=#{deliverCycle},deliver_describe=#{deliverDescribe},
+        maintenance_cycle=#{maintenanceCycle},maintenance_describe=#{maintenanceDescribe},
+        acceptance_cycle=#{acceptanceCycle},acceptance_describe=#{acceptanceDescribe},
+        after_sale_cycle=#{afterSaleCycle},after_sale_describe=#{afterSaleDescribe},
+        fault_num=#{faultNum},fault_num_describe=#{faultNumDescribe},
+        implement_num=#{implementNum},implement_describe=#{implementDescribe},
+        total=#{total},total_describe=#{totalDescribe},
+        remark=#{remark},action_event=#{actionEvent},
+        our_strengths_weaknesses=#{ourStrengthsWeaknesses},friends_strengths_weaknesses=#{friendsStrengthsWeaknesses},
+        legacy=#{legacy},experience_summary=#{experienceSummary},
+        improvement=#{improvement},status=#{status},
+        create_time=#{createTime}
+    </insert>
+
+    <update id="updateProjectConclusion" parameterType="com.sensetime.iva.ipet.entity.ProjectConclusionEntity">
+        UPDATE
+        project_conclusion
+        SET
+        target=#{target},
+        cycle=#{cycle},identity=#{identity},
+        plan=#{plan},phase_conclusion=#{phaseConclusion},
+        plan_design_cycle=#{planDesignCycle},plan_design_describe=#{planDesignDescribe},
+        customization_development_cycle=#{customizationDevelopmentCycle},
+        customization_development_describe=#{customizationDevelopmentDescribe},
+        pre_deliver_cycle=#{preDeliverCycle},pre_deliver_describe=#{preDeliverDescribe},
+        deliver_cycle=#{deliverCycle},deliver_describe=#{deliverDescribe},
+        maintenance_cycle=#{maintenanceCycle},maintenance_describe=#{maintenanceDescribe},
+        acceptance_cycle=#{acceptanceCycle},acceptance_describe=#{acceptanceDescribe},
+        after_sale_cycle=#{afterSaleCycle},after_sale_describe=#{afterSaleDescribe},
+        fault_num=#{faultNum},fault_num_describe=#{faultNumDescribe},
+        implement_num=#{implementNum},implement_describe=#{implementDescribe},
+        total=#{total},total_describe=#{totalDescribe},
+        remark=#{remark},action_event=#{actionEvent},
+        our_strengths_weaknesses=#{ourStrengthsWeaknesses},friends_strengths_weaknesses=#{friendsStrengthsWeaknesses},
+        legacy=#{legacy},experience_summary=#{experienceSummary},
+        improvement=#{improvement},
+        update_time=#{updateTime}
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE
+        project_conclusion
+        SET
+        status=#{status},
+        update_time=#{updateTime}
+        WHERE
+        id = #{id}
+    </update>
+
+    <select id="queryByProject" resultMap="BaseResultMap">
+        select * from project_conclusion where project_id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from project_conclusion where id=#{id}
+    </delete>
+
+    <select id="queryById" resultMap="BaseResultMap">
+        select *
+        from project_conclusion
+        where id=#{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.ApplyListMapper" >
+  <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.ApplyList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="stage" property="stage" jdbcType="INTEGER" />
+    <result column="task_list" property="taskList" jdbcType="INTEGER" />
+    <result column="detail_job" property="detailJob" jdbcType="VARCHAR" />
+    <result column="workload" property="workload" jdbcType="REAL" />
+    <result column="execute_man" property="executeMan" jdbcType="VARCHAR" />
+    <result column="problem_remark" property="problemRemark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from `apply_list`
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sensetime.iva.ipet.entity.ApplyList" useGeneratedKeys="true" keyProperty="id" >
+    insert into `apply_list` (project_id, stage, task_list, 
+      detail_job, workload, execute_man, 
+      problem_remark, create_time, update_time
+      )
+    values (#{projectId,jdbcType=INTEGER}, #{stage,jdbcType=INTEGER}, #{taskList,jdbcType=INTEGER}, 
+      #{detailJob,jdbcType=VARCHAR}, #{workload,jdbcType=REAL}, #{executeMan,jdbcType=VARCHAR}, 
+      #{problemRemark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.sensetime.iva.ipet.entity.ApplyList" >
+    update `apply_list`
+    set project_id = #{projectId,jdbcType=INTEGER},
+      stage = #{stage,jdbcType=INTEGER},
+      task_list = #{taskList,jdbcType=INTEGER},
+      detail_job = #{detailJob,jdbcType=VARCHAR},
+      workload = #{workload,jdbcType=REAL},
+      execute_man = #{executeMan,jdbcType=VARCHAR},
+      problem_remark = #{problemRemark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, project_id, stage, task_list, detail_job, workload, execute_man, problem_remark, 
+    create_time, update_time
+    from `apply_list`
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, project_id, stage, task_list, detail_job, workload, execute_man, problem_remark, 
+    create_time, update_time
+    from `apply_list`
+  </select>
+</mapper>

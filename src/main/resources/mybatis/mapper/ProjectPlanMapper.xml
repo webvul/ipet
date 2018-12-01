@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.ProjectPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.ProjectPlan" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="project_progress" property="projectProgress" jdbcType="VARCHAR" />
+    <result column="risk_and_help" property="riskAndHelp" jdbcType="VARCHAR" />
+    <result column="project_status" property="projectStatus" jdbcType="INTEGER" />
+    <result column="report_cycle" property="reportCycle" jdbcType="VARCHAR" />
+    <result column="week_progress" property="weekProgress" jdbcType="VARCHAR" />
+    <result column="next_week_plan" property="nextWeekPlan" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="INTEGER" />
+    <result column="start_date" property="startDate" jdbcType="VARCHAR" />
+    <result column="stage_id" property="stageId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from `project_plan`
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sensetime.iva.ipet.entity.ProjectPlan" useGeneratedKeys="true" keyProperty="id" >
+    insert into `project_plan` (project_id, project_progress, risk_and_help, 
+      project_status, report_cycle, week_progress, 
+      next_week_plan, attachment, start_date, 
+      create_time, update_time, stage_id)
+    values (#{projectId,jdbcType=INTEGER}, #{projectProgress,jdbcType=VARCHAR}, #{riskAndHelp,jdbcType=VARCHAR}, 
+      #{projectStatus,jdbcType=INTEGER}, #{reportCycle,jdbcType=VARCHAR}, #{weekProgress,jdbcType=VARCHAR}, 
+      #{nextWeekPlan,jdbcType=VARCHAR}, #{attachment,jdbcType=INTEGER}, #{startDate,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{stageId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.sensetime.iva.ipet.entity.ProjectPlan" >
+    update `project_plan`
+    set project_id = #{projectId,jdbcType=INTEGER},
+      project_progress = #{projectProgress,jdbcType=VARCHAR},
+      risk_and_help = #{riskAndHelp,jdbcType=VARCHAR},
+      project_status = #{projectStatus,jdbcType=INTEGER},
+      report_cycle = #{reportCycle,jdbcType=VARCHAR},
+      week_progress = #{weekProgress,jdbcType=VARCHAR},
+      next_week_plan = #{nextWeekPlan,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      stage_id = #{stageId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, project_id, project_progress, risk_and_help, project_status, report_cycle, 
+    week_progress, next_week_plan, attachment, start_date, create_time, update_time, stage_id
+    from `project_plan`
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, project_id, project_progress, risk_and_help, project_status, report_cycle, 
+    week_progress, next_week_plan, attachment, start_date, create_time, update_time, stage_id
+    from `project_plan`
+  </select>
+</mapper>

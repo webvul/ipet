@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.ResourceMapper" >
+
+    <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.Resource" >
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="parent" property="parent" jdbcType="VARCHAR"/>
+        <result column="seq" property="seq" jdbcType="INTEGER"/>
+        <result column="method" property="method" jdbcType="VARCHAR"/>
+        <collection property="roles" ofType="com.sensetime.iva.ipet.entity.RoleEntity">
+            <id column="rid" property="id"/>
+            <result column="rolename" property="roleName"/>
+            <result column="name" property="name"/>
+        </collection>
+    </resultMap>
+
+    <!--<resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.Resource" >-->
+        <!--<id column="id" property="id" jdbcType="INTEGER"/>-->
+        <!--<result column="name" property="name" jdbcType="VARCHAR"/>-->
+        <!--<result column="code" property="code" jdbcType="VARCHAR"/>-->
+        <!--<result column="type" property="type" jdbcType="VARCHAR"/>-->
+        <!--<result column="path" property="path" jdbcType="VARCHAR"/>-->
+        <!--<result column="parent" property="parent" jdbcType="VARCHAR"/>-->
+        <!--<result column="seq" property="seq" jdbcType="INTEGER"/>-->
+        <!--<result column="method" property="method" jdbcType="VARCHAR"/>-->
+        <!--<collection property="roles" ofType="com.sensetime.iva.ipet.entity.RoleEntity">-->
+            <!--<id column="rid" property="id"/>-->
+            <!--<result column="rolename" property="roleName"/>-->
+            <!--<result column="name" property="name"/>-->
+        <!--</collection>-->
+        <!--<collection property="children" ofType="com.sensetime.iva.ipet.entity.Resource">-->
+            <!--<id column="id2" property="id"/>-->
+            <!--<result column="path2" property="path" jdbcType="VARCHAR"/>-->
+            <!--<result column="name2" property="name" jdbcType="VARCHAR"/>-->
+            <!--<result column="seq2" property="seq" jdbcType="INTEGER"/>-->
+            <!--<collection property="children" ofType="com.sensetime.iva.ipet.entity.Resource">-->
+                <!--<id column="id3" property="id"/>-->
+                <!--<result column="name3" property="name" jdbcType="VARCHAR"/>-->
+                <!--<result column="seq3" property="seq" jdbcType="INTEGER"/>-->
+            <!--</collection>-->
+        <!--</collection>-->
+    <!--</resultMap>-->
+
+    <!--<resultMap id="AccountResourceResultMap" type="com.sensetime.iva.ipet.entity.Resource" >-->
+        <!--<id column="id" property="id" jdbcType="INTEGER"/>-->
+        <!--<result column="name" property="name" jdbcType="VARCHAR"/>-->
+        <!--<result column="code" property="code" jdbcType="VARCHAR"/>-->
+        <!--<result column="type" property="type" jdbcType="VARCHAR"/>-->
+        <!--<result column="path" property="path" jdbcType="VARCHAR"/>-->
+        <!--<result column="parent" property="parent" jdbcType="VARCHAR"/>-->
+        <!--<result column="seq" property="seq" jdbcType="INTEGER"/>-->
+        <!--<result column="method" property="method" jdbcType="VARCHAR"/>-->
+        <!--<collection property="children" ofType="com.sensetime.iva.ipet.entity.Resource">-->
+            <!--<id column="id2" property="id"/>-->
+            <!--<result column="path2" property="path" jdbcType="VARCHAR"/>-->
+            <!--<result column="name2" property="name" jdbcType="VARCHAR"/>-->
+            <!--<result column="seq2" property="seq" jdbcType="INTEGER"/>-->
+            <!--<collection property="children" ofType="com.sensetime.iva.ipet.entity.Resource">-->
+                <!--<id column="id3" property="id"/>-->
+                <!--<result column="name3" property="name" jdbcType="VARCHAR"/>-->
+                <!--<result column="seq3" property="seq" jdbcType="INTEGER"/>-->
+                <!--<result column="path3" property="path" jdbcType="VARCHAR"/>-->
+            <!--</collection>-->
+        <!--</collection>-->
+    <!--</resultMap>-->
+
+    <resultMap id="ResourceResultMap" type="com.sensetime.iva.ipet.entity.Resource" >
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="parent" property="parent" jdbcType="VARCHAR"/>
+        <result column="seq" property="seq" jdbcType="INTEGER"/>
+        <result column="method" property="method" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="queryResourceAndRolesByPathAndMethod" resultMap="BaseResultMap">
+        select r.*, ro.`id` as rid,ro.`role_name` as rolename,ro.`name` as name from resource r LEFT join resource_role rr on r.id= rr.resource_id
+      LEFT JOIN role ro on ro.id=rr.role_id where r.path = #{path} and r.method= #{method}
+    </select>
+
+
+    <select id="getAllAndRoles" resultMap="BaseResultMap">
+        select re.*,r.`id` as rid,r.`role_name` as rolename,r.`name` as name
+        from resource re left join resource_role rr on re.`id`=rr.`resource_id`
+        left join role r on rr.`role_id`=r.`id`
+        WHERE re.type <![CDATA[ != ]]> 'NODE' order by re.`id`
+    </select>
+
+    <select id="getAll" resultMap="ResourceResultMap">
+        select r.* from resource r order by r.id
+    </select>
+
+    <select id="getAccountResourceByAccId" resultMap="ResourceResultMap">
+        select DISTINCT r.* from resource r LEFT join resource_role rr on rr.resource_id = r.id
+      left join account_role ar on rr.role_id = ar.role_id where ar.account_id=#{id}
+    </select>
+
+    <select id="getAllUrlResource" resultMap="ResourceResultMap">
+        select r.* from resource r where r.type='URL' order by r.id
+    </select>
+
+    <select id="getRoleResourceIdListByRoleId" resultType="Integer">
+        select r.id from resource r LEFT JOIN resource_role rr on rr.resource_id=r.id
+        where rr.role_id=#{roleId}
+    </select>
+
+    <!--<select id="getMenusByAccountId" parameterType="int" resultMap="AccountResourceResultMap">-->
+        <!--select-->
+        <!--r1.id,r1.path,r1.icon,r1.name,-->
+        <!--r2.id as id2,r2.path as path2, r2.name as name2,-->
+        <!--r3.id as id3,r3.path as path3, r3.name as name3-->
+        <!--from resource r1,resource r2,resource r3-->
+        <!--where r1.code=r2.parent-->
+        <!--and r2.code = r3.parent-->
+        <!--and r3.id-->
+        <!--in-->
+        <!--(select-->
+         <!--distinct  rr.resource_id-->
+          <!--from-->
+          <!--account_role ar,resource_role rr-->
+          <!--where-->
+          <!--ar.role_id=rr.role_id-->
+          <!--and ar.account_id=#{id}-->
+          <!--)-->
+        <!--order by r1.id,r2.id,r3.id-->
+    <!--</select>-->
+
+    <select id="queryByCode" parameterType="String" resultMap="ResourceResultMap">
+        select r.*
+          from resource r
+        where r.code=#{code}
+
+    </select>
+
+    <insert id="addResource" parameterType="com.sensetime.iva.ipet.entity.Resource" useGeneratedKeys="true" keyProperty="id">
+        insert into resource set
+        name=#{name}, code=#{code}, type=#{type},
+        path=#{path}, parent=#{parent},
+        seq=#{seq}, method=#{method}
+    </insert>
+
+    <update id="updateResource" parameterType="com.sensetime.iva.ipet.entity.Resource">
+        update resource set
+        name=#{name}, code=#{code}, type=#{type},
+        path=#{path}, parent=#{parent},
+        seq=#{seq}, method=#{method}
+        where id=#{id}
+    </update>
+
+    <insert id="setResourcesForRole">
+        insert into resource_role(resource_id,role_id)
+        <foreach collection="resources" separator="," item="rid">
+            (#{resourceId,jdbcType=INTEGER},#{rid.id,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <insert id="addResourceForRole">
+        insert into resource_role(resource_id,role_id)
+            values(#{resourceId,jdbcType=INTEGER},#{roleId,jdbcType=INTEGER})
+    </insert>
+    
+    <select id="getResourcesByRoleId" parameterType="int" resultMap="ResourceResultMap">
+      select r.* from resource r
+      left join resource_role rr
+        on r.id = rr.resource_id
+      where rr.role_id=#{roleId} order by r.id
+    </select>
+    
+    <delete id="deleteResourceForRole" parameterType="int">
+        delete from resource_role where  resource_id=#{id}
+    </delete>
+
+    <delete id="deleteResourceById" parameterType="int">
+        delete from resource where id = #{id}
+    </delete>
+
+    <select id="queryById" parameterType="int" resultMap="ResourceResultMap">
+        select r.*
+          from resource r
+        where r.id=#{id}
+    </select>
+
+    <delete id="cleanRoleResources">
+        delete from resource_role where  role_id=#{roleId}
+    </delete>
+
+    <delete id="deleteOneResourceRole">
+         delete from resource_role where  role_id=#{roleId} and resource_id=#{resourceId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.WorkTimeMapper" >
+    <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.WorkTimeEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="work_desc" property="workDesc" jdbcType="VARCHAR" />
+        <result column="work_hour1" property="workHour1" jdbcType="REAL" />
+        <result column="work_hour2" property="workHour2" jdbcType="REAL" />
+        <result column="work_hour3" property="workHour3" jdbcType="REAL" />
+        <result column="work_hour4" property="workHour4" jdbcType="REAL" />
+        <result column="work_hour5" property="workHour5" jdbcType="REAL" />
+        <result column="work_hour6" property="workHour6" jdbcType="REAL" />
+        <result column="work_hour7" property="workHour7" jdbcType="REAL" />
+        <result column="week_total_time" property="weekTotalHour" jdbcType="REAL" />
+    </resultMap>
+
+    <insert id="addWorkTime" parameterType="com.sensetime.iva.ipet.entity.WorkTimeEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into work_time set stage_id=#{stageId}, name=#{name},
+        work_desc=#{workDesc},work_hour1=#{workHour1},work_hour2=#{workHour2},
+        work_hour3=#{workHour3},work_hour4=#{workHour4},work_hour5=#{workHour5},
+        work_hour6=#{workHour6},work_hour7=#{workHour7},week_total_time=#{weekTotalHour},
+        create_time=#{createTime}
+    </insert>
+
+    <update id="updateWorkTime" parameterType="com.sensetime.iva.ipet.entity.WorkTimeEntity">
+        UPDATE
+        work_time
+        SET
+        <if test="workDesc!= null and workDesc!=''">
+            work_desc=#{workDesc},
+        </if>
+        work_hour1=#{workHour1},work_hour2=#{workHour2},
+        work_hour3=#{workHour3},work_hour4=#{workHour4},work_hour5=#{workHour5},
+        work_hour6=#{workHour6},work_hour7=#{workHour7},week_total_time=#{weekTotalHour},
+        update_time=#{updateTime}
+        WHERE
+        id = #{id}
+    </update>
+
+    <select id="queryById" resultMap="BaseResultMap">
+        select * from work_time where id=#{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from work_time where id=#{id}
+    </delete>
+
+</mapper>

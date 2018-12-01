@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.EquipmentMapper" >
+    <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.EquipmentEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="project_id" property="projectId" jdbcType="INTEGER" />
+        <result column="pro_type" property="proType" jdbcType="VARCHAR" />
+        <result column="software_version" property="softwareVersion" jdbcType="VARCHAR" />
+        <result column="device_type" property="deviceType" jdbcType="VARCHAR" />
+        <result column="device_num" property="deviceNum" jdbcType="INTEGER" />
+        <result column="graphics_card_serial" property="graphicsCardSerial" jdbcType="VARCHAR" />
+        <result column="graphics_card_num" property="graphicsCardNum" jdbcType="INTEGER" />
+    </resultMap>
+
+    <insert id="addEquipment" parameterType="com.sensetime.iva.ipet.entity.EquipmentEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into equipment set project_id=#{projectId},pro_type=#{proType},
+        software_version=#{softwareVersion},device_type=#{deviceType},
+        device_num=#{deviceNum},graphics_card_serial=#{graphicsCardSerial},
+        graphics_card_num=#{graphicsCardNum},
+        create_time=#{createTime}
+    </insert>
+
+    <update id="updateEquipment" parameterType="com.sensetime.iva.ipet.entity.EquipmentEntity">
+        UPDATE
+        equipment
+        SET
+        pro_type=#{proType},
+        software_version=#{softwareVersion},device_type=#{deviceType},
+        device_num=#{deviceNum},graphics_card_serial=#{graphicsCardSerial},
+        graphics_card_num=#{graphicsCardNum},
+        update_time=#{updateTime}
+        WHERE
+        id = #{id}
+    </update>
+
+    <select id="queryByProject" resultMap="BaseResultMap">
+        select * from equipment where project_id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from equipment where id=#{id}
+    </delete>
+
+    <select id="queryById" resultMap="BaseResultMap">
+        select *
+        from equipment
+        where id=#{id}
+    </select>
+
+</mapper>

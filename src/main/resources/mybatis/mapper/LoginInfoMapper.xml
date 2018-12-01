@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sensetime.iva.ipet.mapper.LoginInfoMapper" >
+    <resultMap id="BaseResultMap" type="com.sensetime.iva.ipet.entity.LoginInfoEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="getAll" resultMap="BaseResultMap"  >
+       SELECT
+          id, name, type,create_time
+	   FROM login_info
+	   order  by create_time desc
+    </select>
+
+    <insert id="addLoginInfo" parameterType="com.sensetime.iva.ipet.entity.LoginInfoEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into login_info set name=#{name}, type=#{type},
+          create_time=#{createTime}
+    </insert>
+
+
+    <delete id="deleteLoginInfoById" parameterType="java.lang.Integer">
+        DELETE FROM
+       		 login_info
+        WHERE
+       		 id =#{id}
+    </delete>
+
+    <select id="queryById" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+        select
+          id, name, type,create_time
+	    FROM login_info
+	    where id=#{id}
+    </select>
+
+    <select id="queryByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+          id, name, type,create_time
+        from login_info
+        where name=#{name}
+        order  by create_time desc
+    </select>
+
+
+</mapper>
